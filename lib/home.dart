@@ -120,7 +120,7 @@ class _HomeState extends State<Home> {
           body: ListView.builder(
             itemBuilder: (BuildContext ctx, int index) {
               TimeLine timeLine = _timeLines[index];
-              return timeLine.buildTimelineRow();
+              return timeLine.buildTimelineRow(context);
             },
             itemCount: _timeLines.length,
             controller: _controller,

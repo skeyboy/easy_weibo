@@ -16,7 +16,7 @@ class RetweetedStatus {
     }
   }
 
-  Widget buildReTweeted() {
+  Widget buildReTweeted(BuildContext ctx) {
     return Container(
       margin: EdgeInsets.only(left: 65),
       alignment: Alignment.topLeft,
@@ -30,17 +30,38 @@ class RetweetedStatus {
             style: TextStyle(color: Colors.grey, fontSize: 20),
             overflow: TextOverflow.ellipsis,
           ),
-          _buildPics()
+          _buildPics(ctx)
         ],
       ),
     );
   }
 
-  Widget _buildPics() {
+  Widget _buildPics(BuildContext ctx) {
     if (pic_urls == null) {
       return Text('');
     }
 
-    return buildPics(pic_urls, (List<String> pics, int index, String url) {});
+    return buildPics(ctx, pic_urls, (List<String> pics, int index, String url) {
+      return Container(
+          margin: EdgeInsets.only(left: 65),
+          child: buildPics(ctx, pics,
+              (List<String> pics, int index, String url) async {
+            //TODO 图片点击回调
+            var items = pics.map<Container>((String aUrl) {
+              return Container(
+                child: Image.network(aUrl),
+              );
+            }).toList();
+
+            await Navigator.push(ctx,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return DefaultTabController(
+                  length: pics.length,
+                  child: GridView.count(crossAxisCount: items.length));
+            }));
+
+            print(pics);
+          }));
+    });
   }
 }

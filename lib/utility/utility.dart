@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 String sourceFormat(String source) {
   String subSource = new RegExp(">([^<]*)<").stringMatch(source);
@@ -8,7 +9,7 @@ String sourceFormat(String source) {
 }
 
 // onTap  onTap(picUrls, index, url);
-Widget buildPics(List<String> picUrls, Function onTap) {
+Widget buildPics(BuildContext context, List<String> picUrls, Function onTap) {
   if (picUrls == null) {
     return Text('');
   }
@@ -17,9 +18,10 @@ Widget buildPics(List<String> picUrls, Function onTap) {
     return Pic(
       index: index++,
       url: url.replaceRange("http://wx1.sinaimg.cn/".length,
-          "http://wx1.sinaimg.cn/thumbnail".length, "large"),
+          "http://wx1.sinaimg.cn/thumbnail".length, "bmiddle"),
       picTaped: (int index, String url) {
         print(url);
+        print(context);
 
         if (onTap != null) {
           onTap(picUrls, index, url);
@@ -60,14 +62,15 @@ class _PicState extends State<Pic> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+
     return GestureDetector(
       child: Padding(
         padding: EdgeInsets.all(5),
-        child: Image.network(
-          widget.url,
-          width: 180,
-          height: 320,
-          fit: BoxFit.fitWidth,
+        child: FadeInImage.assetNetwork(
+          height: 200,
+          width: 200,
+          placeholder: 'assets/default_bmiddle.gif',
+          image: widget.url,
         ),
       ),
       onTap: () {

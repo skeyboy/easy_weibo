@@ -108,14 +108,21 @@ class TimeLine {
     return super.toString() + '$text';
   }
 
-  Widget _buildPics() {
+  Widget _buildPics(BuildContext ctx) {
     if (pic_urls == null) {
       return Text('');
     }
     return Container(
         margin: EdgeInsets.only(left: 65),
-        child: buildPics(pic_urls, (List<String> pics, int index, String url) {
+        child: buildPics(ctx, pic_urls,
+            (List<String> pics, int index, String url) async {
           //TODO 图片点击回调
+          var items = pics.map<Container>((String aUrl) {
+            return Container(
+              child: Image.network(aUrl),
+            );
+          }).toList();
+
           print(pics);
         }));
   }
@@ -168,13 +175,13 @@ class TimeLine {
     );
   }
 
-  Widget buildTimelineRow() {
+  Widget buildTimelineRow(BuildContext ctx) {
     //从<a href=\"http://weibo.com/\" rel=\"nofollow\">小掌 iPhone 7</a>提取
     String subSource = sourceFormat(this.source);
 
     Widget reTweeted;
     if (this.retweeted_status != null) {
-      reTweeted = this.retweeted_status.buildReTweeted();
+      reTweeted = this.retweeted_status.buildReTweeted(ctx);
     } else {
       reTweeted = Text('');
     }
@@ -224,7 +231,7 @@ class TimeLine {
     return new Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[row, _buildPics(), reTweeted, _buildBottom()],
+      children: <Widget>[row, _buildPics(ctx), reTweeted, _buildBottom()],
     );
   }
 }
