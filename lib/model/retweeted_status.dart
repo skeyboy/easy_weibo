@@ -1,3 +1,4 @@
+import 'package:easy_weibo/utility/utility.dart';
 import 'package:flutter/material.dart';
 
 class RetweetedStatus {
@@ -16,17 +17,22 @@ class RetweetedStatus {
   }
 
   Widget buildReTweeted() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          text,
-          style: TextStyle(color: Colors.white70, fontSize: 20),
-          overflow: TextOverflow.ellipsis,
-        ),
-        _buildPics()
-      ],
+    return Container(
+      margin: EdgeInsets.only(left: 65),
+      alignment: Alignment.topLeft,
+//      color: Colors.black,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            text,
+            style: TextStyle(color: Colors.grey, fontSize: 20),
+            overflow: TextOverflow.ellipsis,
+          ),
+          _buildPics()
+        ],
+      ),
     );
   }
 
@@ -34,24 +40,7 @@ class RetweetedStatus {
     if (pic_urls == null) {
       return Text('');
     }
-    var items = pic_urls.map<Padding>((String url) {
-      return Padding(
-          padding: EdgeInsets.all(5),
-          child: Image.network(
-            url,
-            width: 100,
-            height: 100,
-            fit: BoxFit.cover,
-          ));
-    }).toList();
 
-    return Padding(
-      padding: EdgeInsets.only(left: 5, top: 5, bottom: 5, right: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: items,
-      ),
-    );
+    return buildPics(pic_urls, (List<String> pics, int index, String url) {});
   }
 }

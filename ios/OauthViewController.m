@@ -19,6 +19,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSUserDefaults * userDefault = [NSUserDefaults standardUserDefaults];
+    NSDictionary * token = [userDefault dictionaryForKey:Key];
+    if ([token isKindOfClass:[NSDictionary class]]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self performSegueWithIdentifier:@"show_flutter" sender:token];
+        });
+        return;
+    }
     [self.OauthViewModel fetchOauth:^(NSDictionary * _Nonnull tokenInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self performSegueWithIdentifier:@"show_flutter" sender:tokenInfo];

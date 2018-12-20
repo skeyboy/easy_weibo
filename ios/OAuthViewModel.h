@@ -13,5 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface OAuthViewModel : NSObject
 -(void)fetchOauth:(void(^)(NSDictionary *)) token ;
 @end
-
 NS_ASSUME_NONNULL_END
+
+#define Key   @"4049546345"

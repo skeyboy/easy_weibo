@@ -64,7 +64,15 @@
                                                 if (jsonError) {
                                                     NSLog(@"%@", jsonError);
                                                 }else{
+                                                    
                                                     NSLog(@"%@", tokenInfo);
+                                                    
+                                                    NSUserDefaults * userDefault =
+                                                    [NSUserDefaults standardUserDefaults];
+                                                    
+                                                    [userDefault setValue:tokenInfo forKey:Key];
+                                                    
+                                                    [userDefault synchronize];
                                                     Token(tokenInfo);
                                                 }
                                             }

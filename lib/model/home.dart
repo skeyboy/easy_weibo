@@ -54,6 +54,14 @@ class TimeLine {
   int textLength;
   int source_allowclick;
   int source_type;
+  int attitudes_count;
+
+  //评论
+  int comments_count;
+
+//  转发
+  int reposts_count;
+
   String source;
   List<String> pic_urls;
 
@@ -72,6 +80,21 @@ class TimeLine {
     }
 
     source_type = jsonObj['source_type'];
+    var tmpCommentsCount = jsonObj['comments_count'];
+    if (tmpCommentsCount == null || tmpCommentsCount == 0) {
+      comments_count = 1;
+    } else {
+      comments_count = tmpCommentsCount;
+    }
+    var tmprepostsCount = jsonObj['reposts_count'];
+    if (tmprepostsCount == null || tmprepostsCount == 0) {
+      reposts_count = 1;
+    } else {
+      reposts_count = tmprepostsCount;
+    }
+
+    attitudes_count = jsonObj['attitudes_count'];
+
     pic_urls = new List();
     //图片
     for (var item in jsonObj['pic_urls']) {
@@ -89,25 +112,12 @@ class TimeLine {
     if (pic_urls == null) {
       return Text('');
     }
-    var items = pic_urls.map<Padding>((String url) {
-      return Padding(
-          padding: EdgeInsets.all(5),
-          child: Image.network(
-            url,
-            width: 150,
-            height: 150,
-            fit: BoxFit.cover,
-          ));
-    }).toList();
-
-    return Padding(
-      padding: EdgeInsets.only(left: 65, top: 5, bottom: 5, right: 65),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: items,
-      ),
-    );
+    return Container(
+        margin: EdgeInsets.only(left: 65),
+        child: buildPics(pic_urls, (List<String> pics, int index, String url) {
+          //TODO 图片点击回调
+          print(pics);
+        }));
   }
 
   //底部工具栏
@@ -115,7 +125,7 @@ class TimeLine {
   Widget _buildBottom() {
     return Padding(
       padding: EdgeInsets.only(
-        left: 100,
+        left: 65,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -124,15 +134,34 @@ class TimeLine {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.all(5),
-            child: IconButton(icon: Icon(Icons.share), onPressed: () {}),
+            child: GestureDetector(
+                onTap: () {
+                  // TODO
+                },
+                child: Chip(
+                    label: Text('$reposts_count'), avatar: Icon(Icons.share))),
           ),
           Padding(
             padding: EdgeInsets.all(5),
-            child: IconButton(icon: Icon(Icons.comment), onPressed: () {}),
+            child: GestureDetector(
+                onTap: () {
+                  // TODO
+                },
+                child: Chip(
+                    label: Text('$comments_count'),
+                    avatar: Icon(Icons.comment))),
           ),
+
+          ///attitudes_count
           Padding(
             padding: EdgeInsets.all(5),
-            child: IconButton(icon: Icon(Icons.favorite), onPressed: () {}),
+            child: GestureDetector(
+                onTap: () {
+                  // TODO
+                },
+                child: Chip(
+                    label: Text('$attitudes_count'),
+                    avatar: Icon(Icons.thumb_up))),
           ),
         ],
       ),
@@ -147,7 +176,7 @@ class TimeLine {
     if (this.retweeted_status != null) {
       reTweeted = this.retweeted_status.buildReTweeted();
     } else {
-      reTweeted = Text('none');
+      reTweeted = Text('');
     }
     print(this.retweeted_status);
 

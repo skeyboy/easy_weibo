@@ -17,6 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _refresh = false;
+
   int _counter = 0;
   EventChannel _eventChannel =
       const EventChannel("App/Event/token", const StandardMethodCodec());
@@ -55,14 +57,21 @@ class _HomeState extends State<Home> {
     final response = await new http.Client().get(time_line);
     if (response.statusCode == 200) {
       HomeModel homeModel = HomeModel(response.body);
+
       //判断获取的是否为空
       if (homeModel.statuses.isEmpty) {
       } else {
         setState(() {
-          _timeLines
-            ..addAll(homeModel.statuses.map((item) {
-              return item;
-            }));
+          var tmpItems = homeModel.statuses.map((item) {
+            return item;
+          });
+
+          if (_refresh) {
+            _timeLines..insertAll(0, tmpItems);
+          } else {
+            _timeLines..addAll(tmpItems);
+          }
+          _refresh = false;
 
           _timeLineValue = response.body;
         });
@@ -93,6 +102,14 @@ class _HomeState extends State<Home> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+    _timeLines.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (_timeLines.isEmpty) {
       return Scaffold(
@@ -101,13 +118,24 @@ class _HomeState extends State<Home> {
     } else {
       return Scaffold(
           body: ListView.builder(
-        itemBuilder: (BuildContext ctx, int index) {
-          TimeLine timeLine = _timeLines[index];
-          return timeLine.buildTimelineRow();
-        },
-        itemCount: _timeLines.length,
-        controller: _controller,
-      ));
+            itemBuilder: (BuildContext ctx, int index) {
+              TimeLine timeLine = _timeLines[index];
+              return timeLine.buildTimelineRow();
+            },
+            itemCount: _timeLines.length,
+            controller: _controller,
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              _controller.animateTo(0,
+                  duration: Duration(milliseconds: 500), curve: Curves.linear);
+              setState(() {
+                _refresh = false;
+//                _fetch();
+              });
+            },
+            child: Icon(Icons.arrow_upward),
+          ));
     }
   }
 }
