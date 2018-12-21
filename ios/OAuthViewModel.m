@@ -23,8 +23,7 @@
     if (self = [super init]) {
         _redirect_uri = [@"https://api.weibo.com/oauth2/default.html" stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
         _url = [[NSString stringWithFormat:@"https://api.weibo.com/oauth2/authorize?client_id=4049546345&redirect_uri=%@&response_type=code",_redirect_uri] stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
-     
-      
+   
     }
     return self;
 }
