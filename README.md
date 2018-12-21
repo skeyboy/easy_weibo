@@ -19,14 +19,13 @@ A new Flutter project.个人小练之开源新浪微博
         的学习（需求才是第一动力），Android端的OAuth是拖拉好久才开始接入的，一开始是想着只要高通了
         Android授权很快搞定，今天终于鼓起勇气把Android搞定，这个也再次印证了Flutter的跨平台优势
         
-        
 # 目前简易效果
 
-    iOS
-    ![iOS个人微博首页](snap/iPad-1.png)
-    ![iOS个人关注微博首页](snap/iPhone-1.pn)
-    Android
-    ![Android个人微博首页](snap/android-1.png)
+iOS     
+![iOS个人微博首页](./snap/iPad-1.png)
+![iOS个人关注微博首页](snap/iPhone-1.png)
+Android
+![Android个人微博首页](snap/android-1.png)
 
 ## Getting Started
 
