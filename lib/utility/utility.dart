@@ -22,6 +22,22 @@ Widget buildPics(BuildContext context, List<String> picUrls, Function onTap) {
       picTaped: (int index, String url) {
         print(url);
         print(context);
+        Navigator.push(context, new MaterialPageRoute(builder: (_) {
+          return Scaffold(
+            body: Hero(
+              tag: "pic",
+              child: Center(
+                child: GridView.count(
+                  crossAxisCount: 3,
+                  children: picUrls.map<FadeInImage>((String aUrl) {
+                    return FadeInImage.assetNetwork(
+                        placeholder: "images/default_bmiddle.gif", image: aUrl);
+                  }).toList(),
+                ),
+              ),
+            ),
+          );
+        }));
 
         if (onTap != null) {
           onTap(picUrls, index, url);
@@ -67,8 +83,8 @@ class _PicState extends State<Pic> {
       child: Padding(
         padding: EdgeInsets.all(5),
         child: FadeInImage.assetNetwork(
-          height: 200,
-          width: 200,
+          height: 100,
+          width: 100,
           placeholder: 'assets/default_bmiddle.gif',
           image: widget.url,
         ),

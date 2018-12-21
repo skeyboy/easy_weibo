@@ -49,9 +49,10 @@ class _HomeState extends State<Home> {
   ScrollController _controller;
 
   Future _fetch() async {
+    var access_token = widget.tokenInfo['access_token'];
+
     var time_line =
-        "https://api.weibo.com/2/statuses/home_timeline.json?page=$_page&count=$_count&&access_token=" +
-            widget.tokenInfo['access_token'];
+        "https://api.weibo.com/2/statuses/home_timeline.json?page=$_page&count=$_count&&access_token=$access_token";
     print(time_line);
 
     final response = await new http.Client().get(time_line);
