@@ -23,7 +23,10 @@
     NSDictionary * token = [userDefault dictionaryForKey:Key];
     if ([token isKindOfClass:[NSDictionary class]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self performSegueWithIdentifier:@"show_flutter" sender:token];
+            if (self.OAuthResult) {
+                self.OAuthResult(token, self);
+            }
+//            [self performSegueWithIdentifier:@"show_flutter" sender:token];
         });
         return;
     }

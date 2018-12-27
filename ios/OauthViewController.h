@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface OauthViewController : UIViewController
-
+@property(copy, nonatomic) void(^OAuthResult)(id info, OauthViewController * oAuthVc);
 @end
 
 NS_ASSUME_NONNULL_END

@@ -117,13 +117,21 @@ class TimeLine {
         child: buildPics(ctx, pic_urls,
             (List<String> pics, int index, String url) async {
           //TODO 图片点击回调
+
           var items = pics.map<Container>((String aUrl) {
             return Container(
               child: Image.network(aUrl),
             );
           }).toList();
 
-          print(pics);
+//          Navigator.push(ctx, new MaterialPageRoute(builder: (_) {
+//            return new Scaffold(
+//              body: GridView.count(
+//                crossAxisCount: items.length,
+//                children: items,
+//              ),
+//            );
+//          }));
         }));
   }
 
@@ -227,11 +235,21 @@ class TimeLine {
         ),
       ],
     );
-
-    return new Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[row, _buildPics(ctx), reTweeted, _buildBottom()],
+    return GestureDetector(
+      child: new Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[row, _buildPics(ctx), reTweeted, _buildBottom()],
+      ),
+      onTap: () {
+        Navigator.push(ctx, new MaterialPageRoute(builder: (_) {
+          return Scaffold(
+            body: Center(
+              child: Text("Center}"),
+            ),
+          );
+        }));
+      },
     );
   }
 }

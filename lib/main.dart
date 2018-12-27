@@ -68,13 +68,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   // 数据接收
   void _onEvent(Object value) {
+    print("获取的数据");
+
     print(value);
     setState(() {
       tokenInfo = value;
       _pages.add(Home(tokenInfo: tokenInfo));
-      _pages.add(Home(
-        tokenInfo: tokenInfo,
+      _pages.add(Scaffold(
+        body: GestureDetector(
+          child: Center(
+            child: Text("Center"),
+          ),
+        ),
       ));
+
+//      _pages.add(Profile(
+//        tokenInfo: tokenInfo,
+//      ));
     });
   }
 
@@ -102,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Home")),
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Home"))
+          BottomNavigationBarItem(
+              icon: Icon(Icons.face), title: Text("Profile"))
         ],
         currentIndex: _currentIndex,
         onTap: (int index) {

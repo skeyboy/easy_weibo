@@ -15,6 +15,7 @@
 		53054B8821C8F656002AD871 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53054B8721C8F655002AD871 /* WebKit.framework */; };
 		53054B8B21C8F6D9002AD871 /* OAuthViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53054B8A21C8F6D9002AD871 /* OAuthViewModel.m */; };
 		53054B8E21C8F720002AD871 /* OauthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53054B8D21C8F720002AD871 /* OauthViewController.m */; };
+		534887EE21D47147003F977E /* AppFlutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 534887ED21D47147003F977E /* AppFlutterViewController.m */; };
 		9705A1C61CF904A100538489 /* Flutter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; };
 		9705A1C71CF904A300538489 /* Flutter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 9740EEBA1CF902C7004384FC /* Flutter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9740EEB41CF90195004384FC /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 9740EEB21CF90195004384FC /* Debug.xcconfig */; };
@@ -51,6 +52,8 @@
 		53054B8A21C8F6D9002AD871 /* OAuthViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OAuthViewModel.m; sourceTree = "<group>"; };
 		53054B8C21C8F720002AD871 /* OauthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OauthViewController.h; sourceTree = "<group>"; };
 		53054B8D21C8F720002AD871 /* OauthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OauthViewController.m; sourceTree = "<group>"; };
+		534887EC21D47147003F977E /* AppFlutterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppFlutterViewController.h; sourceTree = "<group>"; };
+		534887ED21D47147003F977E /* AppFlutterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppFlutterViewController.m; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
 		7AFFD8ED1D35381100E5BB4D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7AFFD8EE1D35381100E5BB4D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -101,6 +104,8 @@
 				53054B8A21C8F6D9002AD871 /* OAuthViewModel.m */,
 				53054B8C21C8F720002AD871 /* OauthViewController.h */,
 				53054B8D21C8F720002AD871 /* OauthViewController.m */,
+				534887EC21D47147003F977E /* AppFlutterViewController.h */,
+				534887ED21D47147003F977E /* AppFlutterViewController.m */,
 			);
 			name = Flutter;
 			sourceTree = "<group>";
@@ -259,6 +264,7 @@
 				97C146F31CF9000F007C117D /* main.m in Sources */,
 				53054B8E21C8F720002AD871 /* OauthViewController.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				534887EE21D47147003F977E /* AppFlutterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
