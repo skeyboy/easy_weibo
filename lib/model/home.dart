@@ -1,5 +1,6 @@
 import 'dart:convert' as json;
 
+import 'package:easy_weibo/create.dart';
 import 'package:easy_weibo/utility/utility.dart';
 import 'package:flutter/material.dart';
 
@@ -50,6 +51,7 @@ class HomeModel {
 class TimeLine {
   String created_at;
   int id;
+  String idstr;
   String text;
   int textLength;
   int source_allowclick;
@@ -69,6 +71,9 @@ class TimeLine {
   RetweetedStatus retweeted_status;
 
   TimeLine(jsonObj) {
+    id = jsonObj["id"];
+    idstr = jsonObj["idstr"];
+
     created_at = jsonObj['created_at'];
     source = jsonObj['source'];
 
@@ -137,7 +142,7 @@ class TimeLine {
 
   //底部工具栏
 
-  Widget _buildBottom() {
+  Widget _buildBottom(BuildContext ctx, Widget aWidget) {
     return Padding(
       padding: EdgeInsets.only(
         left: 65,
@@ -160,7 +165,13 @@ class TimeLine {
             padding: EdgeInsets.all(5),
             child: GestureDetector(
                 onTap: () {
-                  // TODO
+                  // TODO 发送评论
+                  Navigator.push(ctx, new MaterialPageRoute(builder: (_) {
+                    return Create(
+                      timeLineWidget: aWidget,
+                      timeLine: this,
+                    );
+                  }));
                 },
                 child: Chip(
                     label: Text('$comments_count'),
@@ -183,7 +194,8 @@ class TimeLine {
     );
   }
 
-  Widget buildTimelineRow(BuildContext ctx) {
+  Widget buildTimelineRow(
+      BuildContext ctx, String access_token, TimeLine timeLine) {
     //从<a href=\"http://weibo.com/\" rel=\"nofollow\">小掌 iPhone 7</a>提取
     String subSource = sourceFormat(this.source);
 
@@ -235,18 +247,30 @@ class TimeLine {
         ),
       ],
     );
+
+    var aItem = new Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        row,
+        _buildPics(ctx),
+        reTweeted,
+      ],
+    );
+
+    var content = new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[aItem, _buildBottom(ctx, aItem)],
+    );
+
     return GestureDetector(
-      child: new Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[row, _buildPics(ctx), reTweeted, _buildBottom()],
-      ),
+      child: content,
       onTap: () {
         Navigator.push(ctx, new MaterialPageRoute(builder: (_) {
-          return Scaffold(
-            body: Center(
-              child: Text("Center}"),
-            ),
+          return Create(
+            timeLineWidget: aItem,
+            access_token: access_token,
+            timeLine: timeLine,
           );
         }));
       },

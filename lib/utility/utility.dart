@@ -27,7 +27,7 @@ Widget buildPics(BuildContext context, List<String> picUrls, Function onTap) {
       index: index++,
       url: url.replaceRange("http://wx1.sinaimg.cn/".length,
           "http://wx1.sinaimg.cn/thumbnail".length, "bmiddle"),
-      picTaped: (int index, String url) {
+      picTaped: (int selectedIndex, String url) {
         print(url);
         print(context);
         Navigator.push(context, new MaterialPageRoute(builder: (_) {
@@ -67,6 +67,7 @@ Widget buildPics(BuildContext context, List<String> picUrls, Function onTap) {
                           }
 
                           var tabVc = DefaultTabController(
+                            initialIndex: selectedIndex,
                             length: picUrls.length,
                             child: Column(
                               children: <Widget>[
@@ -77,45 +78,51 @@ Widget buildPics(BuildContext context, List<String> picUrls, Function onTap) {
                                       color: Colors.white,
                                     ),
                                     child: TabBarView(
+                                        controller: controller,
                                         children:
                                             picUrls.map<Widget>((String item) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(12.0),
-                                        child: Card(
-                                          child: Center(
-                                            child: FadeInImage.assetNetwork(
-                                              placeholder:
-                                                  "images/default_bmiddle.gif",
-                                              imageScale: 1,
-                                              image: largePic(item),
-                                              fit: BoxFit.scaleDown,
+                                          return Container(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Card(
+                                              child: Center(
+                                                child: FadeInImage.assetNetwork(
+                                                  placeholder:
+                                                      "images/default_bmiddle.gif",
+                                                  imageScale: 1,
+                                                  image: largePic(item),
+                                                  fit: BoxFit.scaleDown,
+                                                ),
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      );
-                                    }).toList()),
+                                          );
+                                        }).toList()),
                                   ),
                                 ),
                                 Container(
                                     child: Row(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                      IconButton(
-                                          icon: const Icon(Icons.chevron_left),
-                                          color: color,
-                                          onPressed: () {
-                                            _handleArrowButtonPress(
-                                                context, -1);
-                                          },
-                                          tooltip: 'Page back'),
-                                      TabPageSelector(controller: controller),
-                                      IconButton(
-                                          icon: const Icon(Icons.chevron_right),
-                                          color: color,
-                                          onPressed: () {
-                                            _handleArrowButtonPress(context, 1);
-                                          },
-                                          tooltip: 'Page forward')
-                                    ],
+                                          IconButton(
+                                              icon: const Icon(
+                                                  Icons.chevron_left),
+                                              color: color,
+                                              onPressed: () {
+                                                _handleArrowButtonPress(
+                                                    context, -1);
+                                              },
+                                              tooltip: 'Page back'),
+                                          TabPageSelector(
+                                              controller: controller),
+                                          IconButton(
+                                              icon: const Icon(
+                                                  Icons.chevron_right),
+                                              color: color,
+                                              onPressed: () {
+                                                _handleArrowButtonPress(
+                                                    context, 1);
+                                              },
+                                              tooltip: 'Page forward')
+                                        ],
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween)),
                               ],

@@ -121,7 +121,8 @@ class _HomeState extends State<Home> {
           body: ListView.builder(
             itemBuilder: (BuildContext ctx, int index) {
               TimeLine timeLine = _timeLines[index];
-              return timeLine.buildTimelineRow(context);
+              return timeLine.buildTimelineRow(
+                  context, widget.tokenInfo['access_token'], timeLine);
             },
             itemCount: _timeLines.length,
             controller: _controller,
