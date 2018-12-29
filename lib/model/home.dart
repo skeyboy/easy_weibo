@@ -142,7 +142,7 @@ class TimeLine {
 
   //底部工具栏
 
-  Widget _buildBottom(BuildContext ctx, Widget aWidget) {
+  Widget _buildBottom(BuildContext ctx, Widget aWidget, String access_token) {
     return Padding(
       padding: EdgeInsets.only(
         left: 65,
@@ -170,6 +170,7 @@ class TimeLine {
                     return Create(
                       timeLineWidget: aWidget,
                       timeLine: this,
+                      access_token: access_token,
                     );
                   }));
                 },
@@ -260,7 +261,7 @@ class TimeLine {
 
     var content = new Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[aItem, _buildBottom(ctx, aItem)],
+      children: <Widget>[aItem, _buildBottom(ctx, aItem, access_token)],
     );
 
     return GestureDetector(

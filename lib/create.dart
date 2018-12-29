@@ -84,8 +84,12 @@ class _CommentsSate extends State<Commnets> {
   var _page = 1;
   var _comments = null;
   CommentModel commnetModel;
+  List<Widget> commentsList = [];
 
-  Future<String> fetchdata() async {
+  Future<String> _fetchdata() async {
+    if (false == commentsList.isEmpty) {
+      commentsList.removeLast();
+    }
     var url =
         "https://api.weibo.com/2/comments/show.json?access_token=${widget.access_token}&page=${_page}&id=${widget.id}";
     print(url);
@@ -97,6 +101,38 @@ class _CommentsSate extends State<Commnets> {
         _comments = response.body;
         var jsonMap = json.decode(_comments);
         commnetModel = CommentModel(jsonMap);
+        commentsList.addAll(commnetModel.comments.map<Widget>((item) {
+          Comment aItem = item;
+          return Container(
+            margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                CircleAvatar(
+                  child: Image.network(aItem.user.profile_image_url),
+                ),
+                Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          aItem.user.screen_name,
+                          style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Text(
+                          aItem.text,
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal, fontSize: 18),
+                        )
+                      ],
+                    ))
+              ],
+            ),
+          );
+
+//        return Text(item.text);
+        }).toList());
       });
     } else {}
   }
@@ -105,49 +141,35 @@ class _CommentsSate extends State<Commnets> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchdata();
+    _fetchdata();
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     if (_comments == null) {
+      if (commentsList.isEmpty) {
+        return Center(
+          child: Text("暂无评论"),
+        );
+      }
       return Center(
         child: Text("loading…"),
       );
     }
-    return Column(
-      children: commnetModel.comments.map<Widget>((item) {
-        Comment aItem = item;
-        return Container(
-          margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              CircleAvatar(
-                child: Image.network(aItem.user.profile_image_url),
-              ),
-              Flexible(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    aItem.user.screen_name,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Text(
-                    aItem.text,
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 18),
-                  )
-                ],
-              ))
-            ],
-          ),
-        );
 
-//        return Text(item.text);
-      }).toList(),
+    return Column(
+      children: commentsList
+        ..add(GestureDetector(
+          onTap: () {
+            _page = _page + 1;
+            _fetchdata();
+          },
+          child: Container(
+            child: Text("加载更多"),
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 30),
+          ),
+        )),
     );
   }
 }
