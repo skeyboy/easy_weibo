@@ -68,6 +68,8 @@ class _HomeState extends State<Home> {
           });
 
           if (_refresh) {
+            _timeLines..clear();
+
             _timeLines..insertAll(0, tmpItems);
           } else {
             _timeLines..addAll(tmpItems);
@@ -117,15 +119,30 @@ class _HomeState extends State<Home> {
         body: _centerView(),
       );
     } else {
+//      ListView.separated(itemBuilder: null, separatorBuilder: null, itemCount: null)
       return Scaffold(
-          body: ListView.builder(
-            itemBuilder: (BuildContext ctx, int index) {
-              TimeLine timeLine = _timeLines[index];
-              return timeLine.buildTimelineRow(
-                  context, widget.tokenInfo['access_token'], timeLine);
+          body: RefreshIndicator(
+            onRefresh: () {
+              _page = 1;
+              _refresh = true;
+
+              _fetch();
             },
-            itemCount: _timeLines.length,
-            controller: _controller,
+            child: ListView.separated(
+              separatorBuilder: (BuildContext b, int index) {
+                return Divider(
+                  height: 2,
+                  color: Colors.grey,
+                );
+              },
+              itemBuilder: (BuildContext ctx, int index) {
+                TimeLine timeLine = _timeLines[index];
+                return timeLine.buildTimelineRow(
+                    context, widget.tokenInfo['access_token'], timeLine);
+              },
+              itemCount: _timeLines.length,
+              controller: _controller,
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {

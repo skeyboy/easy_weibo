@@ -31,39 +31,40 @@ class Create extends StatelessWidget {
     String name = timeLine.user.name;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("评论${timeLine.idstr}"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              this.timeLineWidget,
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: '留个痕迹',
-                        helperText: "输入",
-                        labelText: 'Life story',
-                      ),
-                      maxLines: 3,
-                    ),
-                  ],
-                ),
-              ),
-              Commnets(
-                access_token: access_token,
-                id: timeLine.id,
-              )
-            ],
-          ),
+        appBar: AppBar(
+          title: Text("评论${timeLine.idstr}"),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  this.timeLineWidget,
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: '留个痕迹',
+                            helperText: "输入",
+                            labelText: 'Life story',
+                          ),
+                          maxLines: 3,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Commnets(
+                    access_token: access_token,
+                    id: timeLine.id,
+                  )
+                ],
+              ),
+            ),
+          ),
+        ));
   }
 }
 
@@ -85,6 +86,7 @@ class _CommentsSate extends State<Commnets> {
   var _comments = null;
   CommentModel commnetModel;
   List<Widget> commentsList = [];
+  var _hasMore = true;
 
   Future<String> _fetchdata() async {
     if (false == commentsList.isEmpty) {
@@ -101,8 +103,15 @@ class _CommentsSate extends State<Commnets> {
         _comments = response.body;
         var jsonMap = json.decode(_comments);
         commnetModel = CommentModel(jsonMap);
+        if (commnetModel.comments.isEmpty == true) {
+          _hasMore = false;
+        } else {
+          _hasMore = true;
+        }
         commentsList.addAll(commnetModel.comments.map<Widget>((item) {
           Comment aItem = item;
+          return aItem.commentBuild();
+
           return Container(
             margin: EdgeInsets.only(left: 5, right: 5, bottom: 5),
             child: Row(
@@ -157,19 +166,27 @@ class _CommentsSate extends State<Commnets> {
         child: Text("loading…"),
       );
     }
+    var botton = null;
+    if (_hasMore == true) {
+      botton = GestureDetector(
+        onTap: () {
+          _page = _page + 1;
+          _fetchdata();
+        },
+        child: Container(
+          child: Text("加载更多"),
+          margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 0),
+        ),
+      );
+    } else {
+      botton = Text("没有更多啦");
+    }
+    if (commentsList.isEmpty == true) {
+      botton = Text("~~~");
+    }
 
     return Column(
-      children: commentsList
-        ..add(GestureDetector(
-          onTap: () {
-            _page = _page + 1;
-            _fetchdata();
-          },
-          child: Container(
-            child: Text("加载更多"),
-            margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 30),
-          ),
-        )),
+      children: commentsList..add(botton),
     );
   }
 }
