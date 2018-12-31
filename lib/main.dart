@@ -1,5 +1,6 @@
 import 'package:easy_weibo/home.dart';
 import 'package:easy_weibo/timeline.dart';
+import 'package:easy_weibo/to_by.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -76,18 +77,9 @@ class _MyHomePageState extends State<MyHomePage> {
       tokenInfo = value;
       _pages.add(Home(tokenInfo: tokenInfo));
       _pages.add(Timeline(access_token: '${tokenInfo["access_token"]}'));
-
-      _pages.add(Scaffold(
-        body: GestureDetector(
-          child: Center(
-            child: Text("Center"),
-          ),
-        ),
+      _pages.add(ToBy(
+        access_token: "${tokenInfo["access_token"]}",
       ));
-
-//      _pages.add(Profile(
-//        tokenInfo: tokenInfo,
-//      ));
     });
   }
 
@@ -116,9 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("Home")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.comment), title: Text("Comments")),
+              icon: Icon(Icons.my_location), title: Text("@")),
           BottomNavigationBarItem(
-              icon: Icon(Icons.supervised_user_circle), title: Text("User"))
+              icon: Icon(Icons.comment), title: Text("Comments")),
         ],
         currentIndex: _currentIndex,
         onTap: (int index) {

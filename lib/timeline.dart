@@ -68,13 +68,16 @@ class _TimeLineState extends State<Timeline> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    var url =
+        "https://api.weibo.com/2/comments/mentions.json?access_token=${widget
+        .access_token}&page=${_page}";
+
     return Scaffold(
         appBar: AppBar(
-          title: Text("发出的"),
+          title: Text("我的"),
           centerTitle: true,
         ),
-        body: SafeArea(
-            child: ListView.separated(
+        body: ListView.separated(
           itemBuilder: (BuildContext ctx, int index) {
             return _comments[index].commentBuild();
           },
@@ -86,6 +89,6 @@ class _TimeLineState extends State<Timeline> {
           },
           itemCount: _comments.length,
           controller: _controller,
-        )));
+        ));
   }
 }
